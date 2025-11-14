@@ -8,3 +8,5 @@ print(result)  # Output: 30
 print ("Hello, World!")
 
 print("matej Crnoja")
+
+print("╰(*°▽°*)╯")
