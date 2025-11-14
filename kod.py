@@ -1,12 +1,10 @@
-def sum_three_numbers(a, b, c):
-    return a + b + c
+import tkinter as tk
 
-# Example usage
-result = sum_three_numbers(5, 10, 15)
-print(result)  # Output: 30
+aplikacija = tk.Tk()
 
-print ("Hello, World!")
+aplikacija.title("Calculomatrix")
 
-print("matej Crnoja")
+label = tk.Label(aplikacija,text="Matrica")
+label.pack()
 
-print("╰(*°▽°*)╯")
+aplikacija.mainloop()
