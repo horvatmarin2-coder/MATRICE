@@ -1,18 +1,15 @@
 import tkinter as tk
 
 def napravi_matricu():
-    # procitaj brojeve
     try:
         r = int(b_redovi.get())
         c = int(b_stupci.get())
     except:
         return
 
-    # obrisi sve iz prozora
     for widget in aplikacija.winfo_children():
         widget.destroy()
 
-    # napravi matricu
     for i in range(r):
         for j in range(c):
             polje = tk.Entry(aplikacija, width=5)
