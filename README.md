@@ -1,5 +1,1 @@
-PROJEKT IZ MATEMATIKE
-        MATRIC
-
-<Matej Crnoja
->
+Borna David Bilic misli da si najgluplja osoba na svijetu i da si gooner
