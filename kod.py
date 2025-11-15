@@ -15,3 +15,5 @@ button = tk.Button(aplikacija, text="Izračunaj",width=20, height=2)
 button.place(x=100, y=100)
 
 aplikacija.mainloop()
+
+print(zbroj())
