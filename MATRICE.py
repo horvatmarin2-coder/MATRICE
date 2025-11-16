@@ -1,6 +1,12 @@
+#napravio sam button koji spremi vrijednosti matrcie. Sprema je u m1. Moramo kasnije komentare za sve ukratko da znamo se snalazit i sve.
+
 import tkinter as tk
 
+x = []
+m1 = None
+
 def napravi_matricu():
+    global r, c, x
     try:
         r = int(b_redovi.get())
         c = int(b_stupci.get())
@@ -15,12 +21,25 @@ def napravi_matricu():
     label.grid(row=0, column=0, columnspan=c, pady=10)
 
     for i in range(r):
+        n = []
         for j in range(c):
             polje = tk.Entry(matrica_frame, width=3)
             polje.grid(row=i + 1, column=j, padx=5, pady=5)
             polje.config(bd=4, justify="center", font=("Arial", 20), bg="#b9a6c5")
+            n.append(polje)
+        x.append(n)
 
+    potvrdi = tk.Button(matrica_frame, text="POTVRDI", font=("Arial", 20, "bold"), bg="#946aaf", cursor="hand2", relief="groove",command=potvrdi_matricu, bd=6)
+    potvrdi.grid(row=r + 2, column=0, columnspan=c, pady=20)
 
+def potvrdi_matricu():
+    global m1
+    try:
+        m1 = [[int(x[i][j].get()) for j in range(c)] for i in range(r)]
+    except:
+        return print("Unesite ispravne cijele brojeve u matricu.")
+    print(m1)
+    
 
 aplikacija = tk.Tk()
 aplikacija.title("MATRICE zadatak")
@@ -43,7 +62,7 @@ label_stupci.pack()
 b_stupci = tk.Entry(aplikacija, bg="#b9a6c5", font=("Arial", 18), width=4, justify='center', bd=4)
 b_stupci.pack(pady=10)
 
-gumb = tk.Button(aplikacija, text="NAPRAVI", font=("Arial", 20, "bold"), bg="#946aaf", command=napravi_matricu, cursor="hand2", relief="groove", bd=6)
-gumb.pack(pady=110)
+napravi = tk.Button(aplikacija, text="NAPRAVI", font=("Arial", 20, "bold"), bg="#946aaf", command=napravi_matricu, cursor="hand2", relief="groove", bd=6)
+napravi.pack(pady=110)
 
 aplikacija.mainloop()
