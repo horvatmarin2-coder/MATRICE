@@ -14,7 +14,6 @@ def napravi_matricu():
     label = tk.Label(matrica_frame, text="UNESI MATRICU:", bg="#aa90bb", font=("Arial", 20, "bold"))
     label.grid(row=0, column=0, columnspan=c, pady=10)
 
-    # Dodaj Entry polja ispod labela
     for i in range(r):
         for j in range(c):
             polje = tk.Entry(matrica_frame, width=3)
@@ -28,12 +27,10 @@ aplikacija.title("MATRICE zadatak")
 aplikacija.geometry("1500x700")
 aplikacija.config(bg="#aa90bb")
 
-# Frame za matricu
 matrica_frame = tk.Frame(aplikacija, bg="#aa90bb")
 matrica_frame.pack(anchor="n", pady=10)
 
-# Label i inputi za dimenzije
-label = tk.Label(aplikacija, text="MATRICE", bg="#aa90bb", font=("Minecraftia", 50, "bold"))
+label = tk.Label(aplikacija, text="MATRICE", bg="#aa90bb", font=("Arial", 50, "bold"))
 label.pack(pady=20)
 
 label_redovi = tk.Label(aplikacija, text="Broj redova:", bg="#aa90bb", font=("Arial", 20, "bold"))
@@ -46,8 +43,7 @@ label_stupci.pack()
 b_stupci = tk.Entry(aplikacija, bg="#b9a6c5", font=("Arial", 18), width=4, justify='center', bd=4)
 b_stupci.pack(pady=10)
 
-gumb = tk.Button(aplikacija, text="NAPRAVI", font=("Arial", 20, "bold"),
-                 bg="#946aaf", command=napravi_matricu, cursor="hand2", relief="groove", bd=6)
-gumb.pack(pady=100)
+gumb = tk.Button(aplikacija, text="NAPRAVI", font=("Arial", 20, "bold"), bg="#946aaf", command=napravi_matricu, cursor="hand2", relief="groove", bd=6)
+gumb.pack(pady=120)
 
 aplikacija.mainloop()
