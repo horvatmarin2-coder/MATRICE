@@ -31,7 +31,7 @@ matrica_frame = tk.Frame(aplikacija, bg="#aa90bb")
 matrica_frame.pack(anchor="n", pady=10)
 
 label = tk.Label(aplikacija, text="MATRICE", bg="#aa90bb", font=("Arial", 50, "bold"))
-label.pack(pady=20)
+label.pack(pady=40)
 
 label_redovi = tk.Label(aplikacija, text="Broj redova:", bg="#aa90bb", font=("Arial", 20, "bold"))
 label_redovi.pack()
@@ -44,6 +44,6 @@ b_stupci = tk.Entry(aplikacija, bg="#b9a6c5", font=("Arial", 18), width=4, justi
 b_stupci.pack(pady=10)
 
 gumb = tk.Button(aplikacija, text="NAPRAVI", font=("Arial", 20, "bold"), bg="#946aaf", command=napravi_matricu, cursor="hand2", relief="groove", bd=6)
-gumb.pack(pady=120)
+gumb.pack(pady=110)
 
 aplikacija.mainloop()
