@@ -8,8 +8,8 @@ m1 = None
 def napravi_matricu():
     global r, c, x
     try:
-        r = int(b_redovi.get())
-        c = int(b_stupci.get())
+        r = int(br_redovi.get())
+        c = int(br_stupci.get())
     except:
         return print("Unesite ispravne brojeve za redove i stupce.")
     
@@ -35,10 +35,10 @@ def napravi_matricu():
 def potvrdi_matricu():
     global m1
     try:
-        m1 = [[int(x[i][j].get()) for j in range(c)] for i in range(r)]
+        m1 = [[int(x[i][j].get()) for j in range(c)] for i in range(r)] #znam da glupo izgleda ali radi :)
     except:
         return print("Unesite ispravne cijele brojeve u matricu.")
-    print(m1)
+    print(m1) # ovo samo stavio da se vidi da radi spremanje matrice, mozes obrisat to
     
 
 aplikacija = tk.Tk()
@@ -54,13 +54,13 @@ label.pack(pady=40)
 
 label_redovi = tk.Label(aplikacija, text="Broj redova:", bg="#aa90bb", font=("Arial", 20, "bold"))
 label_redovi.pack()
-b_redovi = tk.Entry(aplikacija, bg="#b9a6c5", font=("Arial", 18), width=4, justify='center', bd=4)
-b_redovi.pack(pady=10)
+br_redovi = tk.Entry(aplikacija, bg="#b9a6c5", font=("Arial", 18), width=4, justify='center', bd=4)
+br_redovi.pack(pady=10)
 
 label_stupci = tk.Label(aplikacija, text="Broj stupaca:", bg="#aa90bb", font=("Arial", 20, "bold"))
 label_stupci.pack()
-b_stupci = tk.Entry(aplikacija, bg="#b9a6c5", font=("Arial", 18), width=4, justify='center', bd=4)
-b_stupci.pack(pady=10)
+br_stupci = tk.Entry(aplikacija, bg="#b9a6c5", font=("Arial", 18), width=4, justify='center', bd=4)
+br_stupci.pack(pady=10)
 
 napravi = tk.Button(aplikacija, text="NAPRAVI", font=("Arial", 20, "bold"), bg="#946aaf", command=napravi_matricu, cursor="hand2", relief="groove", bd=6)
 napravi.pack(pady=110)
