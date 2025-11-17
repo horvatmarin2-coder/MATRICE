@@ -1,5 +1,16 @@
 #napravio sam button koji spremi vrijednosti matrcie. Sprema je u m1. Moramo kasnije komentare za sve ukratko da znamo se snalazit i sve.
 
+
+
+def ispis(polje_matrice): #ispis matrice onako fino lijepo po domaci kak treba
+    for i in range(len(polje_matrice)):           
+        for j in range(len(polje_matrice[i])):      
+            print(polje_matrice[i][j], end=" ")
+        print()  
+
+
+
+
 import tkinter as tk
 
 x = []
@@ -38,7 +49,7 @@ def potvrdi_matricu():
         m1 = [[int(x[i][j].get()) for j in range(c)] for i in range(r)] #znam da glupo izgleda ali radi :)
     except:
         return print("Unesite ispravne cijele brojeve u matricu.")
-    print(m1) # ovo samo stavio da se vidi da radi spremanje matrice, mozes obrisat to
+    ispis(m1) # ovo samo stavio da se vidi da radi spremanje matrice, mozes obrisat to
 
     LABEL.destroy()
     potvrdi.destroy()
