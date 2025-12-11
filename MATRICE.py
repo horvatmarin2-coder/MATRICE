@@ -223,7 +223,7 @@ def mnozenje_m():
     frame_q = Frame(gore_ljevo, bg="#aa90bb")
     frame_q.pack(side=LEFT, padx=20)
 
-    Label(frame_q, text="Unesi broj stupaca druge matrice (q):", bg="#aa90bb", font=("Arial", 14)).pack(pady=5)
+    Label(frame_q, text="Unesi broj stupaca druge matrice:", bg="#aa90bb", font=("Arial", 14)).pack(pady=5)
 
     q_entry = Entry(frame_q, width=5, font=("Arial", 14), justify="center", bd=4, bg="#b9a6c5")
     q_entry.pack(pady=5)
@@ -235,9 +235,9 @@ def mnozenje_m():
             if q < 1 or q > 6:
                 raise ValueError
         except:
-            error = Label(aplikacija, text="BROJ STUPACA DRUGE MATRICE MORA BITI [1-6]!",
+            error = Label(aplikacija, text="BROJ STUPACA DRUGE MATRICE MORA BITI [1-5]!",
                       bg="#aa90bb", fg="#E40F0F", font=("Arial", 20, "bold underline"))
-            error.pack(pady=200)
+            error.pack(pady=400)
             aplikacija.after(2000, error.destroy)
             return
         
@@ -263,10 +263,19 @@ def mnozenje_m():
                         bg="#946aaf", cursor="hand2", relief="groove", bd=6,
                         command=potvrdi_2_matricu)
         potvrdi2.pack(side=LEFT, padx=20)
-    Button(frame_q, text="Potvrdi q", command=kreiraj_drugu_matricu).pack(pady=10)
+    Button(frame_q, 
+       text="Potvrdi", 
+       font=("Arial", 20, "bold"), 
+       bg="#946aaf", 
+       cursor="hand2", 
+       relief="groove", 
+       bd=6,
+       command=kreiraj_drugu_matricu
+      ).pack(pady=10)
+
 
 def transponirana():
-    global m1,selektor
+    global m1,selektor,trans
     redci=len(m1)
     stupci=len(m1[0])
     trans = [[m1[j][i] for j in range(redci)] for i in range(stupci)]
@@ -284,9 +293,11 @@ def transponirana():
         for j in range(redci):
             Label(frame_za_matricu, text=formatiraj_broj(trans[i][j]), width=5,
                   font=("Arial", 20), bg="#b9a6c5", bd=4).grid(row=i, column=j, padx=5, pady=5)
+    selektor=4
+    svojstva_matrice()
 
 def potvrdi_2_matricu():
-    global m1, x2, selektor, r, c, q,rez
+    global m1, x2, selektor, r, c, q,rez,m2
 
     # Dohvati vrijednosti iz druge matrice
     try:
@@ -299,7 +310,7 @@ def potvrdi_2_matricu():
     except:
         error = Label(aplikacija, text="UNESITE ISPRAVNE BROJEVE!",
                       bg="#aa90bb", fg="#E40F0F", font=("Arial", 20, "bold underline"))
-        error.pack(pady=200)
+        error.pack(pady=400)
         aplikacija.after(2000, error.destroy)
         return
 
@@ -348,7 +359,7 @@ def potvrdi_2_matricu():
     svojstva_matrice()
 
 def svojstva_matrice():
-    global m1,x2,rez
+    global m1,x2,rez,matrice_mnozenje,svojstva_dolje
     svojstva_dolje = Frame(aplikacija, bg="#aa90bb")
     svojstva_dolje.pack(side=TOP, fill="x", pady=20)
 
@@ -369,6 +380,144 @@ def svojstva_matrice():
     
     Label(svojstva_rjesenje_frame, text="Svojstva rješenja:", 
       bg="#d7c5e8", font=("Arial", 16, "bold")).pack(pady=10)
+    
+    if selektor !=4:
+        matrice = [(m1, svojstva_m1_frame), (m2, svojstva_m2_frame), (rez, svojstva_rjesenje_frame)]
+
+    else:
+        matrice = [(trans,svojstva_m1_frame)]
+        svojstva_m2_frame.destroy()
+        svojstva_rjesenje_frame.destroy()
+        
+
+    for matrica, frame in matrice:
+        tekst = "SIMETRIČNA: ✅" if simetricna(matrica) else "SIMETRIČNA: ❌"
+        Label(frame, text=tekst, bg="#d7c5e8", font=("Arial", 16, "bold")).pack(pady=10)
+
+    for matrica, frame in matrice:
+        tekst = "ANTISIMETRIČNA: ✅" if antisimetricna(matrica) else "ANTISIMETRIČNA: ❌"
+        Label(frame, text=tekst, bg="#d7c5e8", font=("Arial", 16, "bold")).pack(pady=10)
+
+    for matrica, frame in matrice:
+        tekst = "ORTOGONALNA: ✅" if ortogonalna(matrica) else "ORTOGONALNA: ❌"
+        Label(frame, text=tekst, bg="#d7c5e8", font=("Arial", 16, "bold")).pack(pady=10)
+
+    if selektor==3:
+    
+        matrice_mnozenje = [(rez, svojstva_rjesenje_frame)]    
+
+        for matrica, frame in matrice_mnozenje:
+            tekst = "KOMUTATIVNO MNOZENJE: ✅" if komutativnost(m1,m2) else "KOMUTATIVNO MNOZENJE: ❌"
+            Label(frame, text=tekst, bg="#d7c5e8", font=("Arial", 16, "bold")).pack(pady=10)
+    
+    for matrica, frame in matrice:
+        tekst = "GORNJE TROKUTASTA: ✅" if gornje_trokutasta(matrica) else "GORNJE TROKUTASTA: ❌"
+        Label(frame, text=tekst, bg="#d7c5e8", font=("Arial", 16, "bold")).pack(pady=10)
+    
+    for matrica, frame in matrice:
+        tekst = "DONJE TROKUTASTA: ✅" if donje_trokutasta(matrica) else "DONJE TROKUTASTA: ❌"
+        Label(frame, text=tekst, bg="#d7c5e8", font=("Arial", 16, "bold")).pack(pady=10)
+
+def simetricna(m):
+    # provjera jel matrica kvvadratna
+    if len(m) != len(m[0]):
+        return False
+
+
+    # provjeri simetričnost
+    for i in range(len(m)):
+        for j in range(len(m)):
+            if m[i][j] != m[j][i]:
+                return False
+
+    return True
+
+def antisimetricna(m):
+    if len(m) != len(m[0]):
+        return False
+
+    for i in range(len(m)):
+        for j in range(len(m)):
+            if m[i][j] != -m[j][i]:
+                return False
+
+    return True
+
+def ortogonalna(m):
+    # Mora biti kvadratna
+    if len(m) != len(m[0]):
+        return False
+    
+    # Izračun transponirane
+    T = [[m[j][i] for j in range(len(m))] for i in range(len(m))]
+    
+    # A * A^T
+    n = len(m)
+    rezultat = [[0 for _ in range(n)] for _ in range(n)]
+    
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                rezultat[i][j] += m[i][k] * T[k][j]
+
+    # Provjeri je li A * A^T == jedinicna
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                if formatiraj_broj(rezultat[i][j]) != "1":
+                    return False
+            else:
+                if formatiraj_broj(rezultat[i][j]) != "0":
+                    return False
+
+    return True
+
+def komutativnost(m1, m2):
+    def mnozenje_matrica(A, B):
+        if len(A[0]) != len(B):
+            return None
+        rezultat = [[0 for _ in range(len(B[0]))] for _ in range(len(A))]
+        for i in range(len(A)):
+            for j in range(len(B[0])):
+                for k in range(len(B)):
+                    rezultat[i][j] += A[i][k] * B[k][j]
+        return rezultat
+
+    AB = mnozenje_matrica(m1, m2)
+    BA = mnozenje_matrica(m2, m1)
+
+    if AB is None or BA is None:
+
+        return False
+
+    if AB == BA:
+        return True
+    else:
+        return False
+
+def gornje_trokutasta(m):
+    if len(m) != len(m[0]):
+        return False
+    
+    n = len(m)
+    for i in range(1, n):          
+        for j in range(i):        
+            if m[i][j] != 0:
+                return False
+    return True
+
+def donje_trokutasta(m):
+
+    if len(m) != len(m[0]):
+        return False
+    
+    n = len(m)
+
+    for i in range(n):
+        for j in range(i+1, n):  
+            if m[i][j] != 0:
+                return False
+    return True
 
 
 
