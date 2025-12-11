@@ -1,5 +1,6 @@
 from tkinter import *
 
+#generiramo prozor
 aplikacija = Tk()
 aplikacija.title("Racunanje matrica")
 aplikacija.geometry("1920x1080")
@@ -9,32 +10,32 @@ aplikacija.state('zoomed')
 matrica_frame = Frame(aplikacija, bg="#aa90bb")
 matrica_frame.pack(anchor="n", pady=10)
 
-def formatiraj_broj(b, dec=6):  # dec = broj decimalnih mjesta za zaokruživanje
+#ovu funkciju koristimo da prikazemo decimalni broj s 6 mjesta
+def formatiraj_broj(b, dec=2):  # dec = broj decimalnih mjesta za zaokruživanje
     b = round(b, dec)  # prvo zaokruži
     if b == int(b):
         return str(int(b))
     else:
         return str(b)
 
-
-
-
-
 x = []
 x2 = []
 m1 = None
 LABEL = None
 potvrdi = None
-selektor=0
+selektor = 0
 
 def napravi_matricu():
     global r, c, x, potvrdi, LABEL
     try:
+        #uzima iz entry-a (br_redova i br_stupaca) i sprema ih na r(redci) i c(stupci)
         r = int(br_redovi.get())
         c = int(br_stupci.get())
-        if r <= 0 or c <= 0 or r > 5 or c>5:
+        # Prikaz errora ako korisnik ne unese broj ili unese <= 0 ili > 5
+        if r <= 0 or c <= 0 or r > 5 or c > 5:
             raise ValueError
-    # Prikaz errora ako korisnik ne unese broj ili unese <=0 ili >10
+   
+   #izpise u prozoru da smo krivo upisali podatke
     except:
         error = Label(aplikacija,text="REDOVI I STUPCI MORAJU BITI [1-5]!!!",
                       bg="#aa90bb", fg="#E40F0F", font=("Arial", 20, "bold underline"))
@@ -42,6 +43,7 @@ def napravi_matricu():
         aplikacija.after(2000, error.destroy)
         return
     
+    #brise se sve osim matrice_framea
     for widget in aplikacija.winfo_children():
         if widget != matrica_frame:
             widget.destroy()
@@ -51,6 +53,7 @@ def napravi_matricu():
     LABEL = Label(matrica_frame, text="UNESI MATRICU:", bg="#aa90bb", font=("Arial", 20, "bold"))
     LABEL.grid(row=0, column=0, columnspan=c, pady=10)
 
+    #stvaramo entrye sa odgovarajucim brojem redova i stupaca i sprema sve na polje x[]
     for i in range(r):
         n = []
         for j in range(c):
@@ -68,7 +71,7 @@ def napravi_matricu():
 def potvrdi_1_matricu():
     global m1, LABEL, potvrdi, odabir
     try:
-        # Omogućava decimalne brojeve
+        # Omogućava decimalne brojeve i prebacuje s x[] polja u m1
         m1 = [[float(x[i][j].get()) for j in range(c)] for i in range(r)]
     except:
         # Prikaz errora ako korisnik unese neispravnu vrijednost u matricu
@@ -78,14 +81,14 @@ def potvrdi_1_matricu():
         aplikacija.after(2000, error.destroy)
         return
 
-    if LABEL: LABEL.destroy()
-    if potvrdi: potvrdi.destroy()
-
     # Očisti stare odabir frame-ove, ali ne dira matrica_frame ni labele
+    LABEL.destroy()
+    potvrdi.destroy()
 
     odabir = Frame(aplikacija, bg="#aa90bb")
     odabir.pack(pady=20)
 
+    #gumbovi za sve funkcije
     Button(odabir, text="ZBRAJANJE", font=("Arial", 14, "bold"),
            bg="#946aaf", cursor="hand2", relief="groove", bd=6,
            command=zbrajanje_m).pack(side=LEFT, padx=10)
@@ -120,8 +123,7 @@ def zbrajanje_m():
     #ispisujemo prvu matricu u frame u obliku labela koji se ne moze mijenjat
     for i in range(r):
         for j in range(c):
-            Label(frame_za_matricu, text=formatiraj_broj(m1[i][j]), width=5, font=("Arial", 20),
-                  bg="#b9a6c5", bd=4).grid(row=i, column=j, padx=5, pady=5)
+            Label(frame_za_matricu, text=formatiraj_broj(m1[i][j]), width=5, font=("Arial", 20),bg="#b9a6c5", bd=4).grid(row=i, column=j, padx=5, pady=5)
 
     #stvaramo znak plus
     znak_plus = Label(gore_ljevo, text="+", font=("Arial", 40, "bold"), bg="#aa90bb")
@@ -143,14 +145,11 @@ def zbrajanje_m():
         x2.append(red)
     selektor=1
 
-    potvrdi2 = Button(gore_ljevo, text="POTVRDI", font=("Arial", 20, "bold"),
-                      
-                      bg="#946aaf", cursor="hand2", relief="groove", bd=6,
-                      command=potvrdi_2_matricu)
+    potvrdi2 = Button(gore_ljevo, text="POTVRDI", font=("Arial", 20, "bold"),bg="#946aaf", cursor="hand2", relief="groove", bd=6,command=potvrdi_2_matricu)
     potvrdi2.pack(side=LEFT, padx=20)
 
 def oduzimanje_m():
-    global gore_ljevo, frame_za_matricu, frame_za_2_matricu, x2, znak_plus, potvrdi2,selektor
+    global gore_ljevo, frame_za_matricu, frame_za_2_matricu, x2, znak_minus, potvrdi2,selektor
     
     matrica_frame.pack_forget()
 
@@ -167,12 +166,11 @@ def oduzimanje_m():
     #ispisujemo prvu matricu u frame u obliku labela koji se ne moze mijenjat
     for i in range(r):
         for j in range(c):
-            Label(frame_za_matricu, text=formatiraj_broj(m1[i][j]), width=5, font=("Arial", 20),
-                  bg="#b9a6c5", bd=4).grid(row=i, column=j, padx=5, pady=5)
+            Label(frame_za_matricu, text=formatiraj_broj(m1[i][j]), width=5, font=("Arial", 20),bg="#b9a6c5", bd=4).grid(row=i, column=j, padx=5, pady=5)
 
-    #stvaramo znak plus
-    znak_plus = Label(gore_ljevo, text="-", font=("Arial", 40, "bold"), bg="#aa90bb")
-    znak_plus.pack(side=LEFT, padx=20)
+    #stvaramo znak minus
+    znak_minus = Label(gore_ljevo, text="-", font=("Arial", 40, "bold"), bg="#aa90bb")
+    znak_minus.pack(side=LEFT, padx=20)
 
     #stvaramo frame za 2 matricu u farme (gore_ljevo)
     frame_za_2_matricu = Frame(gore_ljevo, bg="#aa90bb")
@@ -196,7 +194,7 @@ def oduzimanje_m():
     potvrdi2.pack(side=LEFT, padx=20)
 
 def mnozenje_m():
-    global gore_ljevo, frame_za_matricu, frame_za_2_matricu, x2, znak_plus, potvrdi2,selektor,q,q_entry
+    global gore_ljevo, frame_za_matricu, frame_za_2_matricu, x2, znak_puta, potvrdi2,selektor,q,q_entry
     
     matrica_frame.pack_forget()
 
@@ -213,10 +211,9 @@ def mnozenje_m():
     #ispisujemo prvu matricu u frame u obliku labela koji se ne moze mijenjat
     for i in range(r):
         for j in range(c):
-            Label(frame_za_matricu, text=formatiraj_broj(m1[i][j]), width=5, font=("Arial", 20),
-                  bg="#b9a6c5", bd=4).grid(row=i, column=j, padx=5, pady=5)
+            Label(frame_za_matricu, text=formatiraj_broj(m1[i][j]), width=5, font=("Arial", 20),bg="#b9a6c5", bd=4).grid(row=i, column=j, padx=5, pady=5)
 
-    #stvaramo znak plus
+    #stvaramo znak mnozenja
     znak_puta = Label(gore_ljevo, text="X", font=("Arial", 40, "bold"), bg="#aa90bb")
     znak_puta.pack(side=LEFT, padx=20)
 
@@ -235,15 +232,14 @@ def mnozenje_m():
             if q < 1 or q > 6:
                 raise ValueError
         except:
-            error = Label(aplikacija, text="BROJ STUPACA DRUGE MATRICE MORA BITI [1-5]!",
-                      bg="#aa90bb", fg="#E40F0F", font=("Arial", 20, "bold underline"))
+            error = Label(aplikacija, text="BROJ STUPACA DRUGE MATRICE MORA BITI [1-5]!",bg="#aa90bb", fg="#E40F0F", font=("Arial", 20, "bold underline"))
             error.pack(pady=400)
             aplikacija.after(2000, error.destroy)
             return
         
         frame_q.destroy()
         q_entry.destroy()
-        #stvaramo frame za 2 matricu u farme (gore_ljevo)
+        #stvaramo frame za 2 matricu u frame (gore_ljevo)
         frame_za_2_matricu = Frame(gore_ljevo, bg="#aa90bb")
         frame_za_2_matricu.pack(side=LEFT, padx=20)
 
@@ -263,15 +259,7 @@ def mnozenje_m():
                         bg="#946aaf", cursor="hand2", relief="groove", bd=6,
                         command=potvrdi_2_matricu)
         potvrdi2.pack(side=LEFT, padx=20)
-    Button(frame_q, 
-       text="Potvrdi", 
-       font=("Arial", 20, "bold"), 
-       bg="#946aaf", 
-       cursor="hand2", 
-       relief="groove", 
-       bd=6,
-       command=kreiraj_drugu_matricu
-      ).pack(pady=10)
+    Button(frame_q, text="Potvrdi", font=("Arial", 20, "bold"), bg="#946aaf", cursor="hand2", relief="groove", bd=6,command=kreiraj_drugu_matricu).pack(pady=10)
 
 
 def transponirana():
@@ -519,26 +507,23 @@ def donje_trokutasta(m):
                 return False
     return True
 
-
-
-
-
 # Glavne labele i inputi
 label = Label(aplikacija, text="MATRICE", bg="#aa90bb", font=("Arial", 50, "bold"))
 label.pack()
 
 label_redovi = Label(aplikacija, text="Broj redova:", bg="#aa90bb", font=("Arial", 20, "bold"))
 label_redovi.pack(pady=10)
+
 br_redovi = Entry(aplikacija, bg="#b9a6c5", font=("Arial", 18), width=4, justify='center', bd=4)
 br_redovi.pack(pady=10)
 
 label_stupci = Label(aplikacija, text="Broj stupaca:", bg="#aa90bb", font=("Arial", 20, "bold"))
 label_stupci.pack(pady=10)
+
 br_stupci = Entry(aplikacija, bg="#b9a6c5", font=("Arial", 18), width=4, justify='center', bd=4)
 br_stupci.pack(pady=10)
 
-napravi = Button(aplikacija, text="NAPRAVI", font=("Arial", 20, "bold"),
-                 bg="#946aaf", command=napravi_matricu, cursor="hand2", relief="groove", bd=6)
+napravi = Button(aplikacija, text="NAPRAVI", font=("Arial", 20, "bold"),bg="#946aaf", command=napravi_matricu, cursor="hand2", relief="groove", bd=6)
 napravi.pack(pady=70)
 
 aplikacija.mainloop()
